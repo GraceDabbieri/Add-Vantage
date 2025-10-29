@@ -106,6 +106,309 @@
       "urlFilter": "taboola.com",
       "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
     }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "taboola.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "moatads.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "openx.net",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "quantserve.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "casalemedia.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "adsrvr.org",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "mediamath.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "adform.net",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "smartadserver.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "bidswitch.net",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "mathtag.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "sharethrough.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "advertising.yahoo.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "demdex.net",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "omtrdc.net",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "yieldmo.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "teads.tv",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "admantx.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "indexww.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "33across.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "emxdgt.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "spotxchange.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "contextweb.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "branch.io",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "sitescout.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "serving-sys.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "chartbeat.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "clarity.ms",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "crazyegg.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "optimizely.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "hotjar.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "newrelic.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "segment.io",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "ads.youtube.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "*.googlevideo.com/videoplayback*",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "youtube.com/get_midroll_",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "youtube.com/pagead",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "youtube.com/ptracking",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "media", "stylesheet", "object", "xmlhttprequest", "ping", "websocket", "other"]
+    }
   }
-  
 ]
