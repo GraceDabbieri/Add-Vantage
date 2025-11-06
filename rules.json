@@ -1222,6 +1222,213 @@
       "urlFilter": "analytics-api.samsunghealthcn.com",
       "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
     }
+  },
+  {
+    "id": 136,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://adservice.google.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 137,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://googleadservices.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 138,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://ads.google.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 139,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://doubleclick.net/",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 140,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://media.fastclick.net/",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 141,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://cdn.fastclick.net/",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 142,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://affiliationjs.s3.amazonaws.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 143,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://advertising-api-eu.amazon.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 144,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://amazonaax.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 145,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://hotjar.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 146,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://static.hotjar.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 147,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://api-hotjar.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 148,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://hotjar-analytics.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 149,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://analytics.facebook.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 150,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://ads.facebook.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 151,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://ads-dev.pinterest.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 152,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://widgets.pinterest.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 153,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://ads.reddit.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 154,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://d.reddit.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 155,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://appmetrica.yandex.com",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 156,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://yandexadexchange.net",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 157,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://analytics.mobile.yandex.net",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
+  },
+  {
+    "id": 158,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "https://adsdk.yandex.ru",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "image", "xmlhttprequest", "media", "stylesheet", "object", "other", "ping"]
+    }
   }
   
   
