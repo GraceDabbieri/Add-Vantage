@@ -1,0 +1,26 @@
+/* Hide common YouTube ad UI containers (non-network, UI-only elements) */
+#masthead-ad,
+#player-ads,
+ytd-ad-slot-renderer,
+ytd-display-ad-renderer,
+ytd-in-feed-ad-layout-renderer,
+ytd-promoted-video-renderer,
+ytd-promoted-sparkles-text-search-renderer,
+ytd-promoted-sparkles-web-renderer,
+ytd-statement-banner-renderer,
+ytd-action-compound-feed-entry-renderer[is-promoted],
+.ytd-player-legacy-desktop-watch-ads-renderer,
+.ytd-companion-slot-renderer,
+ytd-brand-consistency-header-renderer[has-advertiser] {
+  display: none !important;
+}
+
+/* Sidebar/companion variants */
+ytd-compact-promoted-video-renderer,
+ytd-compact-promoted-item-renderer,
+ytd-companion-slot-renderer,
+#companion,
+#sponsor-button,
+#offer-module {
+  display: none !important;
+}
