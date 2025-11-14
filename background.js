@@ -1,23 +1,17 @@
 // background.js — MV3 service worker
+// Combines enhanced error handling, messaging (including ping), and safe dynamic rule ID assignment
+// while avoiding conflicts with static rule_resources loaded from manifest (rules.json).
 
 // ---- Helpers ---------------------------------------------------------------
-
 async function loadRulesFromFile() {
   try {
-    const resp = await fetch(chrome.runtime.getURL('rules.json'));
+    const url = chrome.runtime.getURL('rules.json');
+    const resp = await fetch(url);
     if (!resp.ok) throw new Error('Failed to fetch rules.json (HTTP ' + resp.status + ')');
     const rules = await resp.json();
-
-    if (!Array.isArray(rules)) {
-      throw new Error('rules.json must be a JSON array of rule objects');
-    }
-
-    // Assign sequential IDs starting at 1 so we can safely remove them later
-    const dynamicRules = rules.map(function(rule, i) {
-      const copy = Object.assign({}, rule);
-      copy.id = i + 1;
-      return copy;
-    });
+    if (!Array.isArray(rules)) throw new Error('rules.json must be a JSON array of rule objects');
+    // Offset IDs to avoid collisions with static rule_resources (which use low IDs from the file)
+    const dynamicRules = rules.map((rule, i) => ({ ...rule, id: 10000 + i }));
     console.log('Prepared ' + dynamicRules.length + ' dynamic rules from rules.json');
     return dynamicRules;
   } catch (err) {
@@ -27,57 +21,46 @@ async function loadRulesFromFile() {
 }
 
 function getEnabledState() {
-  return new Promise(function(resolve) {
-    chrome.storage.local.get({ enabled: true }, resolve);
-  });
+  return new Promise(resolve => chrome.storage.local.get({ enabled: true }, resolve));
 }
 
 function setEnabledState(enabled) {
-  return new Promise(function(resolve) {
-    chrome.storage.local.set({ enabled: !!enabled }, resolve);
-  });
+  return new Promise(resolve => chrome.storage.local.set({ enabled: !!enabled }, resolve));
 }
 
 // ---- Core logic ------------------------------------------------------------
-
 async function applyRules(enabled) {
   const dnr = chrome.declarativeNetRequest;
   if (!dnr) {
     console.warn('declarativeNetRequest API not available');
     return;
   }
-
   try {
-    // Remove all existing dynamic rules to avoid duplicate IDs or stale entries
+    // Remove existing dynamic rules (only our high-offset IDs)
     const existing = await dnr.getDynamicRules();
-    if (existing && existing.length > 0) {
-      await dnr.updateDynamicRules({
-        removeRuleIds: existing.map(function(r) { return r.id; })
-      });
-      console.log('Removed ' + existing.length + ' existing dynamic rules');
+    const toRemove = existing.filter(r => r.id >= 10000).map(r => r.id);
+    if (toRemove.length) {
+      await dnr.updateDynamicRules({ removeRuleIds: toRemove });
+      console.log('Removed ' + toRemove.length + ' existing dynamic rules');
     }
-
     if (!enabled) {
-      console.log('Blocking disabled — no rules applied');
+      console.log('Blocking disabled — no dynamic rules applied (static rules remain)');
       return;
     }
-
     const rules = await loadRulesFromFile();
     if (!rules.length) {
-      console.warn('No rules to apply (rules.json empty or failed to load)');
+      console.warn('No dynamic rules to apply (empty or failed load)');
       return;
     }
-
     await dnr.updateDynamicRules({ addRules: rules });
     console.log('Successfully applied ' + rules.length + ' dynamic rules');
   } catch (err) {
-    console.error('Error applying rules:', (err && err.message) ? err.message : err);
+    console.error('Error applying rules:', err && err.message ? err.message : err);
   }
 }
 
 // ---- Lifecycle -------------------------------------------------------------
-
-chrome.runtime.onInstalled.addListener(async function() {
+chrome.runtime.onInstalled.addListener(async () => {
   try {
     const state = await getEnabledState();
     await applyRules(!!state.enabled);
@@ -86,7 +69,7 @@ chrome.runtime.onInstalled.addListener(async function() {
   }
 });
 
-chrome.runtime.onStartup.addListener(async function() {
+chrome.runtime.onStartup.addListener(async () => {
   try {
     const state = await getEnabledState();
     await applyRules(!!state.enabled);
@@ -96,17 +79,16 @@ chrome.runtime.onStartup.addListener(async function() {
 });
 
 // ---- Messaging API ---------------------------------------------------------
-
-// Accepts:
-// {type: 'set-enabled', enabled: boolean}
-// {type: 'reload-rules'}
-// {type: 'ping'}
-chrome.runtime.onMessage.addListener(function(msg, _sender, sendResponse) {
+// Supported message types:
+// { type: 'set-enabled', enabled: boolean }
+// { type: 'reload-rules' }
+// { type: 'ping' }
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   if (!msg || !msg.type) return false;
 
   if (msg.type === 'set-enabled') {
     const enabled = !!msg.enabled;
-    setEnabledState(enabled).then(async function() {
+    setEnabledState(enabled).then(async () => {
       try {
         await applyRules(enabled);
         sendResponse({ ok: true });
@@ -115,11 +97,11 @@ chrome.runtime.onMessage.addListener(function(msg, _sender, sendResponse) {
         sendResponse({ ok: false, error: String(e) });
       }
     });
-    return true; // respond asynchronously
+    return true; // async response
   }
 
   if (msg.type === 'reload-rules') {
-    getEnabledState().then(async function(state) {
+    getEnabledState().then(async (state) => {
       try {
         await applyRules(!!state.enabled);
         sendResponse({ ok: true });
@@ -128,7 +110,7 @@ chrome.runtime.onMessage.addListener(function(msg, _sender, sendResponse) {
         sendResponse({ ok: false, error: String(e) });
       }
     });
-    return true; // respond asynchronously
+    return true; // async response
   }
 
   if (msg.type === 'ping') {
