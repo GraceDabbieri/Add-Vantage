@@ -30,7 +30,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "injected.js"
+        "injected.js",
+        "mainWorldInjection.js"
       ],
       "matches": ["*://*.youtube.com/*"]
     }
