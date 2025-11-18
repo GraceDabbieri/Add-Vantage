@@ -151,6 +151,80 @@
       }catch(e){}
     })();
 
+    // Dynamically remove/hide ad UI components that appear after navigation or async loads
+    (function(){
+      const SELECTORS = [
+        // Common YT ad renderers/containers
+        '#masthead-ad',
+        '#player-ads',
+        'ytd-ad-slot-renderer',
+        'ytd-display-ad-renderer',
+        'ytd-in-feed-ad-layout-renderer',
+        'ytd-promoted-video-renderer',
+        'ytd-promoted-sparkles-text-search-renderer',
+        'ytd-promoted-sparkles-web-renderer',
+        'ytd-statement-banner-renderer',
+        'ytd-compact-promoted-video-renderer',
+        'ytd-compact-promoted-item-renderer',
+        'ytd-companion-slot-renderer',
+        '.ytd-player-legacy-desktop-watch-ads-renderer',
+        '[is-promoted]',
+        '[has-advertiser]',
+        // Player overlay ad bits (shouldn’t appear, but hide just in case)
+        '.ytp-ad-module',
+        '.ytp-ad-player-overlay',
+        '.ytp-ad-overlay-slot',
+        '.ytp-ad-text',
+        '.ytp-ad-skip-button-slot'
+      ];
+
+      function hideNode(node){
+        try{
+          if(!node || node.__adVantageHidden) return;
+          node.style.setProperty('display','none','important');
+          node.setAttribute('aria-hidden','true');
+          node.__adVantageHidden = true;
+        }catch(_){/* ignore */}
+      }
+
+      function sweep(root){
+        try{
+          for(const sel of SELECTORS){
+            const list = (root || document).querySelectorAll(sel);
+            for(const el of list) hideNode(el);
+          }
+        }catch(_){/* ignore */}
+      }
+
+      // Initial sweep
+      sweep(document);
+
+      // Observe DOM for future insertions
+      try{
+        const mo = new MutationObserver((mutations) => {
+          for(const m of mutations){
+            if(m.type === 'childList'){
+              m.addedNodes && m.addedNodes.forEach(n => {
+                if(n && n.nodeType === 1){
+                  sweep(n);
+                }
+              });
+            } else if(m.type === 'attributes'){
+              if(m.target) sweep(m.target);
+            }
+          }
+        });
+        mo.observe(document.documentElement || document, { subtree: true, childList: true, attributes: true });
+        try{ console.log('[Ad-Vantage] UI ad observer attached'); }catch(_){ }
+      }catch(_){/* ignore */}
+
+      // YouTube SPA navigation events
+      try{
+        window.addEventListener('yt-navigate-finish', () => sweep(document), true);
+        window.addEventListener('yt-page-data-updated', () => sweep(document), true);
+      }catch(_){/* ignore */}
+    })();
+
     try{ console.log('[Ad-Vantage] injected page script installed'); }catch(e){}
   }catch(e){ console.error('[Ad-Vantage] injected script failed', e); }
 })();
