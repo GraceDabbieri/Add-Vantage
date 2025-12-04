@@ -1,17 +1,29 @@
-// contentScript.js
+// contentScript.js (merged injector)
+// - Injects mainWorldInjection.js into the page (web_accessible_resources).
+// - Avoids double-injection and uses try/catch for robustness.
 
-// 1. Create a <script> element
-const scriptElement = document.createElement('script');
+(function () {
+  try {
+    // Avoid duplicate injection
+    if (window.__maybe_malware_mainworld_injected__) return;
+    window.__maybe_malware_mainworld_injected__ = true;
 
-// 2. Set the 'src' attribute using chrome.runtime.getURL to point to the file
-// listed in web_accessible_resources.
-scriptElement.src = chrome.runtime.getURL('mainWorldInjection.js');
+    // Check for an existing script with the same src (best-effort)
+    const existing = Array.from(document.getElementsByTagName('script')).some(s => {
+      try {
+        const src = s.src || (s.getAttribute && s.getAttribute('src')) || '';
+        return src && src.indexOf('mainWorldInjection.js') !== -1;
+      } catch (e) {
+        return false;
+      }
+    });
+    if (existing) return;
 
-// 3. Optional: Clean up the DOM once the script has loaded
-scriptElement.onload = function() {
-    this.remove();
-};
-
-// 4. Inject the script element into the page's DOM (head or documentElement)
-(document.head || document.documentElement).appendChild(scriptElement);
-
+    const scriptElement = document.createElement('script');
+    scriptElement.src = chrome.runtime.getURL('mainWorldInjection.js');
+    scriptElement.onload = function () { try { this.remove(); } catch (e) {} };
+    (document.head || document.documentElement).appendChild(scriptElement);
+  } catch (e) {
+    // swallow injection errors to avoid breaking the page
+  }
+})();
