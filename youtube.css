@@ -8,6 +8,10 @@ ytd-promoted-video-renderer,
 ytd-promoted-sparkles-text-search-renderer,
 ytd-promoted-sparkles-web-renderer,
 ytd-statement-banner-renderer,
+ytd-enforcement-message-view-model,
+ytd-enforcement-message-renderer,
+ytd-popup-container tp-yt-paper-dialog,
+tp-yt-paper-dialog.ytd-popup-container,
 ytd-action-compound-feed-entry-renderer[is-promoted],
 .ytd-player-legacy-desktop-watch-ads-renderer,
 .ytd-companion-slot-renderer,
@@ -23,4 +27,9 @@ ytd-companion-slot-renderer,
 #sponsor-button,
 #offer-module {
   display: none !important;
+}
+
+/* Ensure site remains interactive if enforcement overlay tries to lock scroll */
+html, body {
+  overflow: auto !important;
 }
