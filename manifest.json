@@ -43,6 +43,13 @@
       "css": ["youtube.css"],
       "all_frames": true,
       "run_at": "document_start"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "exclude_matches": ["*://www.google.com/*", "*://google.com/*", "*://www.google.co.uk/*", "*://www.google.ca/*", "*://www.google.de/*", "*://www.google.fr/*", "*://www.google.it/*", "*://www.google.es/*", "*://www.google.com.au/*", "*://*.youtube.com/*"],
+      "js": ["general-sites.js"],
+      "run_at": "document_end",
+      "all_frames": false
     }
   ],
   "action": {
