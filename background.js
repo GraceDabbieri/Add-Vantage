@@ -148,7 +148,7 @@ chrome.runtime.onStartup.addListener(async () => {
 });
 
 // ---- Messaging API ---------------------------------------------------------
-// Supported messages:
+// Supported message types:
 // { type: 'set-enabled', enabled: boolean }
 // { type: 'reload-rules' }
 // { type: 'ping' }
