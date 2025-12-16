@@ -1,4 +1,7 @@
 /* Ad-Vantage content script for comprehensive ad blocking on all websites */
+// Top-level debug and host safelist
+const DEBUG_COSMETIC = false; // set to true while debugging to log attempted removals
+const HOST_SAFELIST = ['github.com', 'www.github.com'];
 (function() {
   'use strict';
 
@@ -142,21 +145,48 @@
   ];
 
   // Function to hide an element
-  function hideElement(element) {
-    if (!element || element.__adVantageHidden) return;
-    
+  function hideElement(el, reason) {
+    if (!el) return;
     try {
-      element.style.setProperty('display', 'none', 'important');
-      element.style.setProperty('visibility', 'hidden', 'important');
-      element.style.setProperty('opacity', '0', 'important');
-      element.style.setProperty('height', '0', 'important');
-      element.style.setProperty('width', '0', 'important');
-      element.style.setProperty('position', 'absolute', 'important');
-      element.style.setProperty('pointer-events', 'none', 'important');
-      element.setAttribute('aria-hidden', 'true');
-      element.__adVantageHidden = true;
+      // Basic structural safelist by tag name
+      const tag = el.tagName && el.tagName.toUpperCase();
+      if (!tag) return;
+  
+      const STRUCTURAL_TAGS = ['NAV','HEADER','MAIN','FOOTER','TITLE','H1','H2','H3','ARTICLE','SECTION'];
+      if (STRUCTURAL_TAGS.includes(tag)) {
+        if (DEBUG_COSMETIC) console.log('[Ad-Vantage] skip structural element', tag, reason, el);
+        return;
+      }
+  
+      // Host safelist guard
+      try {
+        const hostname = (location && location.hostname) ? location.hostname.toLowerCase() : '';
+        if (HOST_SAFELIST.some(h => hostname === h || hostname.endsWith('.' + h))) {
+          if (DEBUG_COSMETIC) console.log('[Ad-Vantage] host safelisted — skip hide on', hostname, reason, el);
+          return;
+        }
+      } catch (e) {
+        // on error, be conservative and skip removal
+        if (DEBUG_COSMETIC) console.warn('[Ad-Vantage] hideElement: host check failed, skipping removal', e);
+        return;
+      }
+  
+      if (DEBUG_COSMETIC) {
+        console.group('[Ad-Vantage] hideElement');
+        console.log('reason:', reason || 'unspecified', 'host:', location.hostname);
+        console.log(el);
+        console.groupEnd();
+        // For debug preview-only mode, uncomment the next line to avoid actual removals:
+        // return;
+      }
+  
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      } else if (el.style) {
+        el.style.display = 'none';
+      }
     } catch (e) {
-      // Silently fail
+      try { if (el && el.style) el.style.display = 'none'; } catch (_){}
     }
   }
 
@@ -290,57 +320,109 @@
   // Main sweep function
   function sweepAds(root) {
     try {
+      const hostname = (location && location.hostname) ? location.hostname.toLowerCase() : '';
+      if (HOST_SAFELIST.some(h => hostname === h || hostname.endsWith('.' + h))) {
+        if (DEBUG_COSMETIC) console.log('[Ad-Vantage] sweepAds skipped on safelisted host:', hostname);
+        return;
+      }
+  
       const context = root || document;
-      
-      // Remove known ad selectors (most reliable method)
-      AD_SELECTORS.forEach(selector => {
+  
+      // 1) Remove explicit ad selectors (safe)
+      const EXPLICIT_AD_SELECTORS = [
+        'ins.adsbygoogle',
+        '.adsbygoogle',
+        '.ad-slot',
+        '.ad-placeholder',
+        '.ad-banner',
+        '.banner-ad',
+        '.leaderboard-ad',
+        '.mpu-ad',
+        '.ad-container--ad'
+      ].join(',');
+  
+      try {
+        context.querySelectorAll(EXPLICIT_AD_SELECTORS).forEach(el => {
+          try { hideElement(el, 'explicit-selector'); } catch(_) {}
+        });
+      } catch (e) {
+        if (DEBUG_COSMETIC) console.warn('[Ad-Vantage] explicit selector pass failed', e);
+      }
+  
+      // 2) Conservative heuristic pass: only examine iframes, ins elements, and elements with exact tokens
+      const candidates = context.querySelectorAll('iframe, ins, [class], [id]');
+      const KNOWN_IFRAME_HOSTS = ['doubleclick','googlesyndication','amazon-adsystem','adnxs','adform'];
+  
+      for (const el of candidates) {
         try {
-          const elements = context.querySelectorAll(selector);
-          elements.forEach(hideElement);
-        } catch (e) {
-          // Selector might be invalid, skip it
-        }
-      });
-      
-      // Check for elements that look like ads - be more selective
-      const adContainers = context.querySelectorAll('div[id], div[class], aside, section[class], ins, iframe');
-      adContainers.forEach(element => {
-        if (looksLikeAd(element)) {
-          hideElement(element);
-        }
-      });
-      
-      // Remove empty iframes that might be ad placeholders
-      const iframes = context.querySelectorAll('iframe');
-      iframes.forEach(iframe => {
-        try {
-          const src = iframe.src || iframe.getAttribute('src') || '';
-          if (!src || src === 'about:blank' || src === '') {
-            hideElement(iframe);
+          // Skip structural elements quickly
+          const tag = el.tagName && el.tagName.toUpperCase();
+          if (['NAV','HEADER','MAIN','FOOTER','TITLE','H1','H2','H3','ARTICLE','SECTION'].includes(tag)) continue;
+  
+          // Exact token class checks (avoid substring matches)
+          const cls = (el.className || '').toString();
+          if (/\badsbygoogle\b/i.test(cls) || /\bad-slot\b/i.test(cls) || /\bad-placeholder\b/i.test(cls) || /\bad-banner\b/i.test(cls)) {
+            hideElement(el, 'exact-class-token');
+            continue;
+          }
+  
+          // If element contains an iframe from a known ad host, remove the container
+          const iframe = el.querySelector && el.querySelector('iframe');
+          if (iframe && iframe.src) {
+            try {
+              const url = new URL(iframe.src, location.href);
+              const host = (url.hostname || '').toLowerCase();
+              if (KNOWN_IFRAME_HOSTS.some(tok => host.includes(tok))) {
+                hideElement(el, 'iframe-known-host');
+                continue;
+              }
+            } catch (e) {
+              // ignore URL parse errors
+            }
+          }
+  
+          // small tracking images
+          if (tag === 'IMG') {
+            const w = el.getAttribute && el.getAttribute('width');
+            const h = el.getAttribute && el.getAttribute('height');
+            if ((w === '1' && h === '1') || (w === '0' && h === '0')) {
+              hideElement(el, 'tiny-pixel');
+              continue;
+            }
+          }
+  
+          // size-based banner heuristic: only remove if element does not look like navigation/header and has few anchors
+          if (el.getBoundingClientRect) {
+            const rect = el.getBoundingClientRect();
+            if (rect && rect.width && rect.height) {
+              const sizes = [[728,90],[300,250],[320,50],[970,90]];
+              for (const s of sizes) {
+                const tolW = Math.max(8, Math.round(s[0]*0.12));
+                const tolH = Math.max(8, Math.round(s[1]*0.12));
+                if (Math.abs(rect.width - s[0]) <= tolW && Math.abs(rect.height - s[1]) <= tolH) {
+                  try {
+                    const anchors = el.querySelectorAll && el.querySelectorAll('a');
+                    if (!anchors || anchors.length < 3) {
+                      hideElement(el, 'size-match');
+                      break;
+                    }
+                  } catch (e) {
+                    hideElement(el, 'size-match');
+                    break;
+                  }
+                }
+              }
+            }
           }
         } catch (e) {
-          // Might be cross-origin, skip
+          // per-element failure: continue
+          if (DEBUG_COSMETIC) console.warn('[Ad-Vantage] candidate check failed', e);
         }
-      });
-      
-      // Remove AdSense containers specifically
-      const adsenseElements = context.querySelectorAll('ins.adsbygoogle');
-      adsenseElements.forEach(hideElement);
-      
-      // Remove sticky/fixed elements that are likely ads (more conservative)
-      const allFixed = context.querySelectorAll('[style*="fixed"], [style*="sticky"]');
-      allFixed.forEach(element => {
-        try {
-          if (looksLikeAd(element)) {
-            hideElement(element);
-          }
-        } catch (e) {
-          // Skip
-        }
-      });
-      
+      }
+  
+      // Keep any further logic (AdSense container removal, empty iframe cleanup) but ensure they use hideElement() and conservative checks.
     } catch (e) {
-      console.error('[Ad-Vantage] Error during ad sweep:', e);
+      if (DEBUG_COSMETIC) console.error('[Ad-Vantage] sweepAds error', e);
     }
   }
 
