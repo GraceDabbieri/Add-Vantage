@@ -34,6 +34,22 @@
       return parts.some(p => url.indexOf(p) !== -1);
     }
 
+    try {
+      const hostname = (location && location.hostname) ? location.hostname.toLowerCase() : '';
+      const HOST_SAFELIST = [
+        'github.com',
+        'www.github.com'
+      ];
+      if (HOST_SAFELIST.some(h => hostname === h || hostname.endsWith('.' + h))) {
+        console.log('[Ad-Vantage] injected.js: safelisted host, skipping ad logic on', hostname);
+        // Set a flag so other modules can also skip if needed
+        window.__ad_vantage_skip_injected__ = true;
+      }
+    } catch (e) {
+      // conservative behavior on error: skip running
+      window.__ad_vantage_skip_injected__ = true;
+    }
+
     // Compatibility mode flag (set localStorage 'adVantageCompat' = '1' to relax rewrites)
     const COMPAT_MODE = (function(){
       try { return window.localStorage.getItem('adVantageCompat') === '1'; } catch(_) { return false; }
