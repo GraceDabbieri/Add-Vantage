@@ -38,11 +38,17 @@
   ],
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*"],
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
       "js": ["inject.js"],
       "css": ["youtube.css"],
       "all_frames": true,
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "exclude_matches": [
+        "*://*.github.com/*",
+        "https://github.com/*"
+      ]
     },
     {
       "matches": ["<all_urls>"],
